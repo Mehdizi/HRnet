@@ -1,0 +1,1 @@
+export const departements = [{ label: "Select Department" }, { label: "Sales" }, { label: "Marketing" }, { label: "Engineering" }, { label: "Human" }, { label: "Resources" }, { label: "Legal" }]

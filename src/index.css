@@ -1,0 +1,9 @@
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  margin: 1.5rem 0;
+}
