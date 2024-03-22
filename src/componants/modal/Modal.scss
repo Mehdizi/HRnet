@@ -1,20 +1,32 @@
 .modal {
+position: absolute;
+width: 100vw;
+height: 100vh;
+background-color: transparent;
+border: 0;
+padding: 0;
+margin: 0;
+top: 0;
+}
+
+.modal-background {
+  z-index: 1;
+  position: absolute;
   width: 100vw;
   height: 100vh;
   background-color: grey;
-  margin: 0;
-  padding: 0;
-  border: 0;
+  opacity: 50%;
 }
 
 .modal-content {
+  z-index: 2;
   position: relative;
   max-width: 350px;
-  width: 90%;
   padding: 20px;
   margin: 0 auto;
-  margin-top: 50%;
+  margin-top: 44%;
   background-color: white;
+  border: 1px solid black;
   font-size: 1.125rem;
   color: black;
   border-radius: 10px;
@@ -36,3 +48,5 @@
   justify-content: center;
   cursor: pointer;
 }
+
+
