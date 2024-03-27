@@ -4,26 +4,14 @@ import { useModal } from "../../hooks/useModal";
 import { Modal } from "../../componants/modal/Modal";
 import { useState } from "react";
 import { states } from "../../datas/states";
-import { departments} from "../../datas/departments";
+import { departments } from "../../datas/departments";
+import { DatePicker, DatePickerProps, Select, SelectProps, Input } from "antd";
+import { Employee } from "../../types/Employee";
 
-import { DatePicker, DatePickerProps, Select, SelectProps } from "antd";
 
-export type Employee = {
-  firstName: string;
-  lastName: string;
-  dateOfBirth: string;
-  dateOfStart: string;
-  street: string;
-  city: string;
-  state: string;
-  zipCode: number;
-  department: string;
-};
 
 export const CreateEmployee = () => {
-  const [employee, setEmployee] = useState<Employee[]>([]);
-
-  const { isOpen, handleToggleModal } = useModal();
+  const { isOpen, handleToggleModal } = useModal();  
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [birthDate, setBirthDate] = useState<any>("");
@@ -33,6 +21,8 @@ export const CreateEmployee = () => {
   const [state, setState] = useState("");
   const [zipCode, setZipCode] = useState(0);
   const [department, setDepartment] = useState("");
+
+  const [employeesList, setEmployeesList] = useState<Employee[]>([])
 
   const changeBirthDate: DatePickerProps["onChange"] = (date, dateString) => {
     setBirthDate(dateString);
@@ -52,8 +42,8 @@ export const CreateEmployee = () => {
 
   const formattedStates = states.map((state) => {
     return {
-      value: state.name,
-      abbr: state.abbreviation
+      label: state.name,
+      value: state.abbreviation,
     };
   });
 
@@ -64,40 +54,37 @@ export const CreateEmployee = () => {
     };
   });
 
-  const handleResetFormField = () => {
-    setFirstName("");
-    setLastName("");
-    setBirthDate("");
-    setStartDate("");
-    setStreet("");
-    setCity("");
-    setState("");
-    setZipCode(0);
-    setDepartment("");
-  };
+  // const handleResetFormField = () => {
+  //   setFirstName("");
+  //   setLastName("");
+  //   setBirthDate("");
+  //   setStartDate("");
+  //   setStreet("");
+  //   setCity("");
+  //   setState("00");
+  //   setZipCode(0);
+  //   setDepartment("");
+  // };
 
-  const onSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault;
-    setEmployee([
-      ...employee,
-      {
-        firstName: firstName,
-        lastName: lastName,
-        dateOfBirth: birthDate,
-        dateOfStart: startDate,
-        street: street,
-        city: city,
-        state: state,
-        zipCode: zipCode,
-        department: department,
-      },
-    ]);
-    handleResetFormField();
-    console.log(employee);    
-  };
-
-  const handleOnSubmit = () => {
+  const handleOnSubmit = () => (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    console.log("oui")
+    event.preventDefault;
     handleToggleModal();
+    const employeesListCopy = employeesList
+    const newEmployeesList = [...employeesListCopy, {
+      firstName: firstName,
+      lastName: lastName,
+      dateOfBirth: birthDate,
+      dateOfStart: startDate,
+      street: street,
+      city: city,
+      state: state,
+      zipCode: zipCode,
+      department: department,
+    }]
+    setEmployeesList(newEmployeesList);
+    console.log(newEmployeesList)
+    // handleResetFormField();
   };
 
   return (
@@ -112,7 +99,7 @@ export const CreateEmployee = () => {
           <h2>Create Employee</h2>
           <form action="#" id="create-employee" onSubmit={handleOnSubmit}>
             <label htmlFor="first-name">First Name</label>
-            <input
+            <Input
               type="text"
               id="first-name"
               onChange={(e) => setFirstName(e.target.value)}
@@ -120,7 +107,7 @@ export const CreateEmployee = () => {
             />
 
             <label htmlFor="last-name">Last Name</label>
-            <input
+            <Input
               type="text"
               id="last-name"
               value={lastName}
@@ -134,7 +121,7 @@ export const CreateEmployee = () => {
             <DatePicker onChange={changeStartDate} />
 
             <label htmlFor="street">Street</label>
-            <input
+            <Input
               id="street"
               type="text"
               value={street}
@@ -142,7 +129,7 @@ export const CreateEmployee = () => {
             />
 
             <label htmlFor="city">City</label>
-            <input
+            <Input
               id="city"
               type="text"
               value={city}
@@ -151,6 +138,7 @@ export const CreateEmployee = () => {
 
             <label htmlFor="state">State</label>
             <Select
+              value={state}
               style={{ width: "100%" }}
               placeholder="Select a state"
               options={formattedStates}
@@ -158,7 +146,7 @@ export const CreateEmployee = () => {
             />
 
             <label htmlFor="zip-code">Zip Code</label>
-            <input
+            <Input
               id="zip-code"
               type="number"
               value={zipCode}
@@ -167,13 +155,14 @@ export const CreateEmployee = () => {
 
             <label htmlFor="department">Department</label>
             <Select
+              value={department}
               placeholder="Select a department"
               style={{ width: "100%" }}
               options={formattedDepartments}
               onChange={selectDepartment}
             />
 
-            <button type="submit" onClick={(e) => onSubmit(e)}>
+            <button type="submit">
               Save
             </button>
           </form>
