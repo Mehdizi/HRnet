@@ -5,32 +5,12 @@ import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import { CreateEmployee } from "./pages/createEmployee/CreateEmployee";
 import { EmployeeList } from "./pages/employeeList/EmployeeList";
 import React from "react";
+import App from "./App";
 
-
-
-const router = createBrowserRouter([
-  {
-    element: (
-      <>
-        <Outlet />
-      </>
-    ),
-    children: [
-      {
-        path: "/",
-        element: <CreateEmployee />,
-      },
-      {
-        path: "/employee",
-        element: <EmployeeList />,
-      },
-    ],
-  },
-]);
-
+// faire un context
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <App />
   </React.StrictMode>
 );

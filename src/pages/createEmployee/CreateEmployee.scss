@@ -1,13 +1,41 @@
-form {
+.title {
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #000000;
+  padding: 20px;
+  width: 50%;
+}
+
+.form-field-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.form-container {
+  width: 50%;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.title {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.personal-info {
+  background-color: lightgrey;
+  border-radius: 5px 0 0 5px;
+}
+
+.location-info {
+  background-color: lightblue;
+  border-radius: 0 5px 5px 0;
 }
 
 .container {
@@ -19,10 +47,6 @@ form {
 }
 
 label {
-  margin-top: 2px;
-  margin-bottom: 2px;
-}
-
-.address {
-  margin-top: 10px;
+  font-weight: bold;
+  font-size: 1.125rem;
 }
