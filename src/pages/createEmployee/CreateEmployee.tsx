@@ -2,7 +2,7 @@ import "./CreateEmployee.scss";
 import { Link } from "react-router-dom";
 import { useModal } from "../../hooks/useModal";
 import { Modal } from "../../componants/modal/Modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { states } from "../../datas/states";
 import { departments } from "../../datas/departments";
 import { DatePicker, DatePickerProps, Select, SelectProps, Input } from "antd";
@@ -16,12 +16,16 @@ export const CreateEmployee = ({
   save: React.Dispatch<React.SetStateAction<Array<Employee>>>;
   employeesList: Employee[];
 }) => {
+
+
   const { isOpen, handleToggleModal } = useModal();
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [birthDate, setBirthDate] = useState<string>("");
-  const [startDate, setStartDate] = useState<string>("");
+  const [birthDate, setBirthDate] = useState<any>("");
+  const [formattedBirthDate, setFormattedBirthDate] = useState("");
+  const [startDate, setStartDate] = useState<any>("");
+  const [formattedStartDate, setFormattedStartDate] = useState("");
   const [street, setStreet] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
@@ -29,20 +33,23 @@ export const CreateEmployee = ({
   const [department, setDepartment] = useState("");
 
   const changeBirthDate: DatePickerProps["onChange"] = (date) => {
+    setBirthDate(date)
     const choosenDate = new Date(date.format());
     const day = String(choosenDate.getDate()).padStart(2, "0");
     const month = String(choosenDate.getMonth() + 1).padStart(2, "0");
     const year = choosenDate.getFullYear();
-    console.log("day :", day);
-    console.log("month :", month);
-    console.log("year :", year);
     const formattedDate = `${month}/${day}/${year}`;
-    console.log(formattedDate);
-    setBirthDate(formattedDate);
+    setFormattedBirthDate(formattedDate);
   };
 
-  const changeStartDate: DatePickerProps["onChange"] = (_date, dateString) => {
-    setStartDate(dateString);
+  const changeStartDate: DatePickerProps["onChange"] = (date) => {
+    setStartDate(date)
+    const choosenDate = new Date(date.format());
+    const day = String(choosenDate.getDate()).padStart(2, "0");
+    const month = String(choosenDate.getMonth() + 1).padStart(2, "0");
+    const year = choosenDate.getFullYear();
+    const formattedDate = `${month}/${day}/${year}`;
+    setFormattedStartDate(formattedDate)
   };
 
   const selectState: SelectProps["onChange"] = (value) => {
@@ -70,35 +77,34 @@ export const CreateEmployee = ({
   const handleResetFormField = () => {
     setFirstName("");
     setLastName("");
-    setBirthDate(0);
-    setStartDate(0);
+    setBirthDate(null);
+    setFormattedBirthDate("")
+    setStartDate(null);
+    setFormattedStartDate("")
     setStreet("");
     setCity("");
-    setState("00");
+    setState("");
     setZipCode(0);
     setDepartment("");
   };
 
   const handleOnSubmit = (
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+    e:any
   ) => {
     e.preventDefault;
-    console.log("employees list before save", employeesList);
     const newEmployee = {
       firstName: firstName,
       lastName: lastName,
-      dateOfBirth: birthDate,
-      dateOfStart: startDate,
+      dateOfBirth: formattedBirthDate,
+      dateOfStart: formattedStartDate,
       street: street,
       city: city,
       state: state,
       zipCode: zipCode,
       department: department,
     };
-
     save([...employeesList, newEmployee]);
     handleToggleModal();
-    console.log("employees list after save", employeesList);
     handleResetFormField();
   };
 
@@ -136,10 +142,10 @@ export const CreateEmployee = ({
                 />
 
                 <label htmlFor="date-of-birth">Date of Birth</label>
-                <DatePicker onChange={changeBirthDate} />
+                <DatePicker onChange={changeBirthDate} value={birthDate} />
 
                 <label htmlFor="start-date">Start Date</label>
-                <DatePicker onChange={changeStartDate} />
+                <DatePicker onChange={changeStartDate} value={startDate}/>
               </div>
               <div className="form-container location-info">
                 <label htmlFor="street">Street</label>
