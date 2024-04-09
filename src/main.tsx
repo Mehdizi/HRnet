@@ -4,8 +4,6 @@ import "./index.css";
 import React from "react";
 import App from "./App";
 
-// faire un context
-
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <App />

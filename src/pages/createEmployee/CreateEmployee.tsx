@@ -2,12 +2,13 @@ import "./CreateEmployee.scss";
 import { Link } from "react-router-dom";
 import { useModal } from "../../hooks/useModal";
 import { Modal } from "../../componants/modal/Modal";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { states } from "../../datas/states";
 import { departments } from "../../datas/departments";
 import { DatePicker, DatePickerProps, Select, SelectProps, Input } from "antd";
 import { Employee } from "../../types/Employee";
-import { valueType } from "antd/es/statistic/utils";
+import FormInput from "../../componants/formInput/FormInput";
+import inputFirstName from "../../hooks/inputFirstName";
 
 export const CreateEmployee = ({
   save,
@@ -16,11 +17,9 @@ export const CreateEmployee = ({
   save: React.Dispatch<React.SetStateAction<Array<Employee>>>;
   employeesList: Employee[];
 }) => {
-
-
+  const {firstName, changeFirstName} = inputFirstName()
   const { isOpen, handleToggleModal } = useModal();
-
-  const [firstName, setFirstName] = useState("");
+  // const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [birthDate, setBirthDate] = useState<any>("");
   const [formattedBirthDate, setFormattedBirthDate] = useState("");
@@ -33,7 +32,7 @@ export const CreateEmployee = ({
   const [department, setDepartment] = useState("");
 
   const changeBirthDate: DatePickerProps["onChange"] = (date) => {
-    setBirthDate(date)
+    setBirthDate(date);
     const choosenDate = new Date(date.format());
     const day = String(choosenDate.getDate()).padStart(2, "0");
     const month = String(choosenDate.getMonth() + 1).padStart(2, "0");
@@ -43,13 +42,13 @@ export const CreateEmployee = ({
   };
 
   const changeStartDate: DatePickerProps["onChange"] = (date) => {
-    setStartDate(date)
+    setStartDate(date);
     const choosenDate = new Date(date.format());
     const day = String(choosenDate.getDate()).padStart(2, "0");
     const month = String(choosenDate.getMonth() + 1).padStart(2, "0");
     const year = choosenDate.getFullYear();
     const formattedDate = `${month}/${day}/${year}`;
-    setFormattedStartDate(formattedDate)
+    setFormattedStartDate(formattedDate);
   };
 
   const selectState: SelectProps["onChange"] = (value) => {
@@ -75,12 +74,12 @@ export const CreateEmployee = ({
   });
 
   const handleResetFormField = () => {
-    setFirstName("");
+    // setFirstName("");
     setLastName("");
     setBirthDate(null);
-    setFormattedBirthDate("")
+    setFormattedBirthDate("");
     setStartDate(null);
-    setFormattedStartDate("")
+    setFormattedStartDate("");
     setStreet("");
     setCity("");
     setState("");
@@ -88,9 +87,7 @@ export const CreateEmployee = ({
     setDepartment("");
   };
 
-  const handleOnSubmit = (
-    e:any
-  ) => {
+  const handleOnSubmit = (e: any) => {
     e.preventDefault;
     const newEmployee = {
       firstName: firstName,
@@ -111,86 +108,90 @@ export const CreateEmployee = ({
   return (
     <>
       <Modal isOpen={isOpen} handleCloseModal={handleToggleModal}>
-        <p className="modal-text"> Employee Created!</p>
+        <p className="text-center"> Employee Created !</p>
       </Modal>
       <main>
-        <h1>HRnet</h1>
-        <div className="container">
-          <Link to="/employee">View current Employees</Link>
-          <h2 className="title">Create Employee</h2>
+        <h1 className="flex justify-center text-5xl font-bold my-5">HRnet</h1>
+        <div className="flex flex-col items-center justify-center gap-2.5">
+          <Link
+            className="italic cursor-pointer underline text-cyan-500"
+            to="/employee"
+          >
+            View current Employees
+          </Link>
+          <h2 className="text-4xl text-bold">Create Employee</h2>
           <form
-            className="form"
+            className="flex flex-col justify-center items-center gap-2.5 border border-solid rounded-lg border-cyan-400 p-5 w-1/2 "
             action="#"
             id="create-employee"
-            onSubmit={handleOnSubmit}>
-            <div className="form-field-container">
-              <div className="form-container personal-info">
-                <label htmlFor="first-name">First Name</label>
-                <Input
-                  type="text"
-                  id="first-name"
-                  onChange={(e) => setFirstName(e.target.value)}
-                  value={firstName}
-                />
+            onSubmit={handleOnSubmit}
+          >
+            <div className="bg-cyan-400 flex justify-between flex-col w-full rounded-md">
+              <div className="flex">
+                <div className="w-1/2 p-5 flex flex-col gap-2.5 border-r-1 rounded-sm border-sold border-black">
+                  <h3 className="font-bold text-m italic text-center w-full underline">Personal informations</h3>
+                  <FormInput name="First Name" label="firstName" id="firstName" type="text" value={firstName} onChange={changeFirstName}/>
 
-                <label htmlFor="last-name">Last Name</label>
-                <Input
-                  type="text"
-                  id="last-name"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                />
+                  <label htmlFor="last-name">Last Name</label>
+                  <Input
+                    type="text"
+                    id="last-name"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                  />
 
-                <label htmlFor="date-of-birth">Date of Birth</label>
-                <DatePicker onChange={changeBirthDate} value={birthDate} />
+                  <label htmlFor="date-of-birth">Date of Birth</label>
+                  <DatePicker onChange={changeBirthDate} value={birthDate} />
 
-                <label htmlFor="start-date">Start Date</label>
-                <DatePicker onChange={changeStartDate} value={startDate}/>
+                  <label htmlFor="start-date">Start Date</label>
+                  <DatePicker onChange={changeStartDate} value={startDate} />
+                </div>
+                <div className="w-1/2 p-5 flex flex-col gap-2.5 border-r-1 rounded-sm border-sold border-black">
+                  <h3 className="font-bold text-m italic text-center w-full underline">Adress</h3>
+                  <label htmlFor="street">Street</label>
+                  <Input
+                    id="street"
+                    type="text"
+                    value={street}
+                    onChange={(e) => setStreet(e.target.value)}
+                  />
+
+                  <label htmlFor="city">City</label>
+                  <Input
+                    id="city"
+                    type="text"
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                  />
+
+                  <label htmlFor="state">State</label>
+                  <Select
+                    value={state}
+                    placeholder="Select a state"
+                    options={formattedStates}
+                    onChange={selectState}
+                  />
+
+                  <label htmlFor="zip-code">Zip Code</label>
+                  <Input
+                    id="zip-code"
+                    type="number"
+                    value={zipCode}
+                    onChange={(e) => setZipCode(+e.target.value)}
+                  />
+                </div>
               </div>
-              <div className="form-container location-info">
-                <label htmlFor="street">Street</label>
-                <Input
-                  id="street"
-                  type="text"
-                  value={street}
-                  onChange={(e) => setStreet(e.target.value)}
-                />
-
-                <label htmlFor="city">City</label>
-                <Input
-                  id="city"
-                  type="text"
-                  value={city}
-                  onChange={(e) => setCity(e.target.value)}
-                />
-
-                <label htmlFor="state">State</label>
-                <Select
-                  value={state}
-                  placeholder="Select a state"
-                  options={formattedStates}
-                  onChange={selectState}
-                />
-
-                <label htmlFor="zip-code">Zip Code</label>
-                <Input
-                  id="zip-code"
-                  type="number"
-                  value={zipCode}
-                  onChange={(e) => setZipCode(+e.target.value)}
-                />
-
-                <label htmlFor="department">Department</label>
-                <Select
-                  value={department}
-                  placeholder="Select a department"
-                  options={formattedDepartments}
-                  onChange={selectDepartment}
-                />
+              <div className="p-x-5 pb-5 w-1/2 flex flex-col m-auto gap-2.5">
+              <label htmlFor="department">Department</label>
+              <Select
+                value={department}
+                placeholder="Select a department"
+                options={formattedDepartments}
+                onChange={selectDepartment}
+              />
               </div>
             </div>
-
-            <button type="submit">Save an employee</button>
+            <button className="border p-2.5 rounded-md border-cyan-500 bg-cyan-400 hover:bg-cyan-500 hover:border-cyan-400" type="submit">Save an employee</button>
           </form>
         </div>
       </main>
