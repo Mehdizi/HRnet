@@ -1,4 +1,3 @@
-import "./CreateEmployee.scss";
 import { Link } from "react-router-dom";
 import { useModal } from "../../hooks/useModal";
 import { Modal } from "../../componants/modal/Modal";
@@ -7,8 +6,7 @@ import { states } from "../../datas/states";
 import { departments } from "../../datas/departments";
 import { DatePicker, DatePickerProps, Select, SelectProps, Input } from "antd";
 import { Employee } from "../../types/Employee";
-import FormInput from "../../componants/formInput/FormInput";
-import inputFirstName from "../../hooks/inputFirstName";
+import { useChangeFirstName } from "../../hooks/useChangeFirstName";
 
 export const CreateEmployee = ({
   save,
@@ -17,7 +15,7 @@ export const CreateEmployee = ({
   save: React.Dispatch<React.SetStateAction<Array<Employee>>>;
   employeesList: Employee[];
 }) => {
-  const {firstName, changeFirstName} = inputFirstName()
+  const { firstName, changeFirstName } = useChangeFirstName();
   const { isOpen, handleToggleModal } = useModal();
   // const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -107,30 +105,38 @@ export const CreateEmployee = ({
 
   return (
     <>
-      <Modal isOpen={isOpen} handleCloseModal={handleToggleModal}>
-        <p className="text-center"> Employee Created !</p>
-      </Modal>
-      <main>
+      <Modal
+        message="Employee Created !"
+        isOpen={isOpen}
+        handleCloseModal={handleToggleModal}
+      />
+      <main className="mb-2 max-w-5xl m-auto">
         <h1 className="flex justify-center text-5xl font-bold my-5">HRnet</h1>
         <div className="flex flex-col items-center justify-center gap-2.5">
           <Link
             className="italic cursor-pointer underline text-cyan-500"
-            to="/employee"
-          >
+            to="/employee">
             View current Employees
           </Link>
           <h2 className="text-4xl text-bold">Create Employee</h2>
           <form
-            className="flex flex-col justify-center items-center gap-2.5 border border-solid rounded-lg border-cyan-400 p-5 w-1/2 "
+            className="flex flex-col justify-center items-center gap-2.5 border border-solid rounded-lg border-cyan-400 p-5 w-full sm:w-2/3"
             action="#"
             id="create-employee"
-            onSubmit={handleOnSubmit}
-          >
+            onSubmit={handleOnSubmit}>
             <div className="bg-cyan-400 flex justify-between flex-col w-full rounded-md">
               <div className="flex">
                 <div className="w-1/2 p-5 flex flex-col gap-2.5 border-r-1 rounded-sm border-sold border-black">
-                  <h3 className="font-bold text-m italic text-center w-full underline">Personal informations</h3>
-                  <FormInput name="First Name" label="firstName" id="firstName" type="text" value={firstName} onChange={changeFirstName}/>
+                  <h3 className="font-bold text-m italic text-center sm:w-full w-5 underline">
+                    Personal informations
+                  </h3>
+                  <label htmlFor="first-name">First Name</label>
+                  <Input
+                    type="text"
+                    id="first-name"
+                    value={firstName}
+                    onChange={changeFirstName}
+                  />
 
                   <label htmlFor="last-name">Last Name</label>
                   <Input
@@ -147,7 +153,9 @@ export const CreateEmployee = ({
                   <DatePicker onChange={changeStartDate} value={startDate} />
                 </div>
                 <div className="w-1/2 p-5 flex flex-col gap-2.5 border-r-1 rounded-sm border-sold border-black">
-                  <h3 className="font-bold text-m italic text-center w-full underline">Adress</h3>
+                  <h3 className="font-bold text-m italic text-center w-full underline  sm:mb-0 mb-6">
+                    Adress
+                  </h3>
                   <label htmlFor="street">Street</label>
                   <Input
                     id="street"
@@ -182,16 +190,20 @@ export const CreateEmployee = ({
                 </div>
               </div>
               <div className="p-x-5 pb-5 w-1/2 flex flex-col m-auto gap-2.5">
-              <label htmlFor="department">Department</label>
-              <Select
-                value={department}
-                placeholder="Select a department"
-                options={formattedDepartments}
-                onChange={selectDepartment}
-              />
+                <label htmlFor="department">Department</label>
+                <Select
+                  value={department}
+                  placeholder="Select a department"
+                  options={formattedDepartments}
+                  onChange={selectDepartment}
+                />
               </div>
             </div>
-            <button className="border p-2.5 rounded-md border-cyan-500 bg-cyan-400 hover:bg-cyan-500 hover:border-cyan-400" type="submit">Save an employee</button>
+            <button
+              className="border p-2.5 rounded-md border-cyan-500 bg-cyan-400 hover:bg-cyan-500 hover:border-cyan-400"
+              type="submit">
+              Save an employee
+            </button>
           </form>
         </div>
       </main>

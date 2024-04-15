@@ -3,7 +3,6 @@ export const column = [
     title: 'First name',
     dataIndex: 'firstName',
     key: 'firstName',
-    sorter: (a: { firstName: { lenght: number; }; }, b: any ) => a.firstName.lenght - a.firstName.lenght
   },
   {
     title: 'Last name',
@@ -39,10 +38,10 @@ export const column = [
     title: 'State',
     dataIndex: 'state',
     key: 'state',
-  },{
+  }, {
     title: 'Zip code',
     dataIndex: 'zipCode',
     key: 'zipCode',
-    sorter: (a: { zipCode: number; }, b: { zipCode: number; })=> a.zipCode - b.zipCode,
+    sorter: (a: { zipCode: number; }, b: { zipCode: number; }) => a.zipCode - b.zipCode,
   }
 ]
