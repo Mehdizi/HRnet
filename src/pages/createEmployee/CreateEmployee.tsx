@@ -1,12 +1,24 @@
 import { Link } from "react-router-dom";
-import { useModal } from "../../hooks/useModal";
-import { Modal } from "../../componants/modal/Modal";
-import { useState } from "react";
+import {v4 as uuidv4} from 'uuid';
+
+import { Modal } from "npm-react-modal-mehdizi"
+import { useModal } from "npm-react-modal-mehdizi";
+
 import { states } from "../../datas/states";
 import { departments } from "../../datas/departments";
-import { DatePicker, DatePickerProps, Select, SelectProps, Input } from "antd";
+
+import { DatePicker,  Select, Input } from "antd";
+
 import { Employee } from "../../types/Employee";
 import { useChangeFirstName } from "../../hooks/useChangeFirstName";
+import { useChangeLastName } from "../../hooks/useChangeLastName";
+import { useChangeBirthDate } from "../../hooks/useChangeBirthDate";
+import { useChangeStartDate } from "../../hooks/useChangeStartDate";
+import { useChangeState } from "../../hooks/useChangeState";
+import { useChangeStreet } from "../../hooks/useChangeStreet";
+import { useChangeCity } from "../../hooks/useChangeCity";
+import { useChangeZipCode } from "../../hooks/useChangeZipCode";
+import { useChangeDepartment } from "../../hooks/useChangeDepartment";
 
 export const CreateEmployee = ({
   save,
@@ -15,47 +27,31 @@ export const CreateEmployee = ({
   save: React.Dispatch<React.SetStateAction<Array<Employee>>>;
   employeesList: Employee[];
 }) => {
-  const { firstName, changeFirstName } = useChangeFirstName();
-  const { isOpen, handleToggleModal } = useModal();
-  // const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [birthDate, setBirthDate] = useState<any>("");
-  const [formattedBirthDate, setFormattedBirthDate] = useState("");
-  const [startDate, setStartDate] = useState<any>("");
-  const [formattedStartDate, setFormattedStartDate] = useState("");
-  const [street, setStreet] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [zipCode, setZipCode] = useState(0);
-  const [department, setDepartment] = useState("");
 
-  const changeBirthDate: DatePickerProps["onChange"] = (date) => {
-    setBirthDate(date);
-    const choosenDate = new Date(date.format());
-    const day = String(choosenDate.getDate()).padStart(2, "0");
-    const month = String(choosenDate.getMonth() + 1).padStart(2, "0");
-    const year = choosenDate.getFullYear();
-    const formattedDate = `${month}/${day}/${year}`;
-    setFormattedBirthDate(formattedDate);
-  };
+  const {isOpen, handleToggleModal } = useModal()
 
-  const changeStartDate: DatePickerProps["onChange"] = (date) => {
-    setStartDate(date);
-    const choosenDate = new Date(date.format());
-    const day = String(choosenDate.getDate()).padStart(2, "0");
-    const month = String(choosenDate.getMonth() + 1).padStart(2, "0");
-    const year = choosenDate.getFullYear();
-    const formattedDate = `${month}/${day}/${year}`;
-    setFormattedStartDate(formattedDate);
-  };
+  const { firstName, changeFirstName, setFirstName } = useChangeFirstName();
+  const { lastName, changeLastName, setLastName } = useChangeLastName();
+  const { changeStreet, street, setStreet } = useChangeStreet();
+  const { changeCity, city, setCity } = useChangeCity();
+  const {changeState, state, setState } = useChangeState()
+ const { changeZipCode, zipCode, setZipCode } = useChangeZipCode()
+ const {changeDepartment, department, setDepartment} = useChangeDepartment()
 
-  const selectState: SelectProps["onChange"] = (value) => {
-    setState(value);
-  };
-
-  const selectDepartment: SelectProps["onChange"] = (value) => {
-    setDepartment(value);
-  };
+  const {
+    changeBirthDate,
+    birthDate,
+    formattedBirthDate,
+    setBirthDate,
+    setFormattedBirthDate,
+  } = useChangeBirthDate();
+  const {
+    changeStartDate,
+    startDate,
+    formattedStartDate,
+    setStartDate,
+    setFormattedStartDate,
+  } = useChangeStartDate();
 
   const formattedStates = states.map((state) => {
     return {
@@ -72,7 +68,7 @@ export const CreateEmployee = ({
   });
 
   const handleResetFormField = () => {
-    // setFirstName("");
+    setFirstName("");
     setLastName("");
     setBirthDate(null);
     setFormattedBirthDate("");
@@ -88,6 +84,7 @@ export const CreateEmployee = ({
   const handleOnSubmit = (e: any) => {
     e.preventDefault;
     const newEmployee = {
+      key: uuidv4(),
       firstName: firstName,
       lastName: lastName,
       dateOfBirth: formattedBirthDate,
@@ -105,17 +102,14 @@ export const CreateEmployee = ({
 
   return (
     <>
-      <Modal
-        message="Employee Created !"
-        isOpen={isOpen}
-        handleCloseModal={handleToggleModal}
-      />
+      <Modal isOpen={isOpen} message="New employee created !" handleCloseModal={handleToggleModal} />
       <main className="mb-2 max-w-5xl m-auto">
         <h1 className="flex justify-center text-5xl font-bold my-5">HRnet</h1>
         <div className="flex flex-col items-center justify-center gap-2.5">
           <Link
             className="italic cursor-pointer underline text-cyan-500"
-            to="/employee">
+            to="/employee"
+          >
             View current Employees
           </Link>
           <h2 className="text-4xl text-bold">Create Employee</h2>
@@ -123,7 +117,8 @@ export const CreateEmployee = ({
             className="flex flex-col justify-center items-center gap-2.5 border border-solid rounded-lg border-cyan-400 p-5 w-full sm:w-2/3"
             action="#"
             id="create-employee"
-            onSubmit={handleOnSubmit}>
+            onSubmit={handleOnSubmit}
+          >
             <div className="bg-cyan-400 flex justify-between flex-col w-full rounded-md">
               <div className="flex">
                 <div className="w-1/2 p-5 flex flex-col gap-2.5 border-r-1 rounded-sm border-sold border-black">
@@ -143,7 +138,7 @@ export const CreateEmployee = ({
                     type="text"
                     id="last-name"
                     value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
+                    onChange={changeLastName}
                   />
 
                   <label htmlFor="date-of-birth">Date of Birth</label>
@@ -161,7 +156,7 @@ export const CreateEmployee = ({
                     id="street"
                     type="text"
                     value={street}
-                    onChange={(e) => setStreet(e.target.value)}
+                    onChange={changeStreet}
                   />
 
                   <label htmlFor="city">City</label>
@@ -169,7 +164,7 @@ export const CreateEmployee = ({
                     id="city"
                     type="text"
                     value={city}
-                    onChange={(e) => setCity(e.target.value)}
+                    onChange={changeCity}
                   />
 
                   <label htmlFor="state">State</label>
@@ -177,7 +172,7 @@ export const CreateEmployee = ({
                     value={state}
                     placeholder="Select a state"
                     options={formattedStates}
-                    onChange={selectState}
+                    onChange={changeState}
                   />
 
                   <label htmlFor="zip-code">Zip Code</label>
@@ -185,7 +180,7 @@ export const CreateEmployee = ({
                     id="zip-code"
                     type="number"
                     value={zipCode}
-                    onChange={(e) => setZipCode(+e.target.value)}
+                    onChange={changeZipCode}
                   />
                 </div>
               </div>
@@ -195,13 +190,14 @@ export const CreateEmployee = ({
                   value={department}
                   placeholder="Select a department"
                   options={formattedDepartments}
-                  onChange={selectDepartment}
+                  onChange={changeDepartment}
                 />
               </div>
             </div>
             <button
               className="border p-2.5 rounded-md border-cyan-500 bg-cyan-400 hover:bg-cyan-500 hover:border-cyan-400"
-              type="submit">
+              type="submit"
+            >
               Save an employee
             </button>
           </form>

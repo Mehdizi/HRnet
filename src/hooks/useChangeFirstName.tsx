@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 export const useChangeFirstName = () => {
   const [firstName, setFirstName] = useState("");
@@ -7,5 +7,5 @@ export const useChangeFirstName = () => {
   }) => {
     setFirstName(e.target.value);
   };
-  return { firstName, changeFirstName };
+  return { firstName, changeFirstName, setFirstName };
 };

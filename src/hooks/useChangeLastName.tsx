@@ -5,5 +5,5 @@ export const useChangeLastName = () => {
   const changeLastName = (e: any) => {
     setLastName(e.target.value);
   };
-  return { lastName, changeLastName };
+  return { lastName, changeLastName, setLastName };
 };
