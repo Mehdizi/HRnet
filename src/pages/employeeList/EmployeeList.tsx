@@ -30,7 +30,7 @@ export const EmployeeList = ({
   };
 
   return (
-    <main className="w-max-5 flex flex-col justify-center items-center gap-3">
+    <main className="flex flex-col justify-center items-center gap-3">
       <h1 className="flex justify-center text-5xl font-bold my-5">
         Current Employees
       </h1>
@@ -44,8 +44,10 @@ export const EmployeeList = ({
           onChange={(e) => filterData(e)}
         />
       </div>
+    <div className="font-4 max-lg:text-xs">
+    <Table columns={column} dataSource={filteredData} />
 
-      <Table className="z-0" columns={column} dataSource={filteredData} />
+    </div>
       <Link
         className="italic cursor-pointer underline text-cyan-500 mb-2.5"
         to="/"

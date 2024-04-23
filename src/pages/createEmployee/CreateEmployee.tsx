@@ -107,7 +107,7 @@ export const CreateEmployee = ({
         <h1 className="flex justify-center text-5xl font-bold my-5">HRnet</h1>
         <div className="flex flex-col items-center justify-center gap-2.5">
           <Link
-            className="italic cursor-pointer underline text-cyan-500"
+            className="italic cursor-pointer underline text-cyan-900"
             to="/employee"
           >
             View current Employees
@@ -169,6 +169,7 @@ export const CreateEmployee = ({
 
                   <label htmlFor="state">State</label>
                   <Select
+                  id="state"
                     value={state}
                     placeholder="Select a state"
                     options={formattedStates}
@@ -187,6 +188,7 @@ export const CreateEmployee = ({
               <div className="p-x-5 pb-5 w-1/2 flex flex-col m-auto gap-2.5">
                 <label htmlFor="department">Department</label>
                 <Select
+                id="department"
                   value={department}
                   placeholder="Select a department"
                   options={formattedDepartments}
