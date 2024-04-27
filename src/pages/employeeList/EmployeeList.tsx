@@ -31,25 +31,28 @@ export const EmployeeList = ({
 
   return (
     <main className="flex flex-col justify-center items-center gap-3">
-      <h1 className="flex justify-center text-5xl font-bold my-5">
+      <h1 className="flex justify-center text-3xl font-bold my-5 md:text-5xl">
         Current Employees
       </h1>
-      <div className="flex justify-center items-center gap-1">
-        <label className="w-1/4" htmlFor="searchBar">
+      <div className="flex justify-center items-center gap-1 md:text-m">
+        <label className="w-1/3 md:text-xl text-base" htmlFor="searchBar">
           Search :
         </label>
         <Input
-          className="w-3/4"
+          className="w-2/3"
           id="searchBar"
           onChange={(e) => filterData(e)}
         />
       </div>
-    <div className="font-4 max-lg:text-xs">
-    <Table columns={column} dataSource={filteredData} />
-
-    </div>
+      <div className="md:text-sm text-l" >
+        <Table
+          columns={column}
+          dataSource={filteredData}
+          scroll={{ x:1000}}
+        />
+      </div>
       <Link
-        className="italic cursor-pointer underline text-cyan-500 mb-2.5"
+        className="italic cursor-pointer underline text-cyan-500 mb-2.5 md:text-xl text-base"
         to="/"
       >
         Home
