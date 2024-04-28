@@ -2,8 +2,8 @@ import { useState } from "react";
 
 export const useChangeLastName = () => {
   const [lastName, setLastName] = useState("");
-  const changeLastName = (e: any) => {
-    setLastName(e.target.value);
+  const changeLastName = (value:string) => {
+    setLastName(value);
   };
-  return { lastName, changeLastName, setLastName };
+  return { lastName, changeLastName };
 };

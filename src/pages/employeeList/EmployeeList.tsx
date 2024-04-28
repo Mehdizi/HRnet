@@ -1,33 +1,46 @@
 import { Link } from "react-router-dom";
-import { column } from "../../datas/tableColumn";
-import { Input, Table } from "antd";
 import { Employee } from "../../types/Employee";
 import { ChangeEvent, useState } from "react";
+import { Input, Table } from "rsuite";
+const { Column, HeaderCell, Cell } = Table;
 
 export const EmployeeList = ({
   employeesList: employeesList,
 }: {
   employeesList: Employee[];
 }) => {
-  const [filteredData, setFilteredData] = useState<Employee[]>(employeesList);
+  const data:any = employeesList.map((employee) => {
+    return (
+      employee.firstName,
+      employee.lastName,
+      employee.dateOfBirth,
+      employee.department,
+      employee.dateOfStart,
+      employee.street,
+      employee.city,
+      employee.state,
+      employee.zipCode
+    );
+  });
+  // const [filteredData, setFilteredData] = useState<Employee[]>(employeesList);
 
-  const filterData = (e: ChangeEvent<HTMLInputElement>) => {
-    const newDataArray = employeesList.filter((employee) => {
-      const searchInput = e.target.value.toLowerCase();
-      if (
-        employee.firstName.toLowerCase().includes(searchInput) ||
-        employee.lastName.toLowerCase().includes(searchInput) ||
-        employee.dateOfBirth.toLowerCase().includes(searchInput) ||
-        employee.dateOfStart.toLowerCase().includes(searchInput) ||
-        employee.state.toLowerCase().includes(searchInput) ||
-        employee.street.toLowerCase().includes(searchInput) ||
-        employee.department.toLowerCase().includes(searchInput) ||
-        employee.city.toLowerCase().includes(searchInput)
-      )
-        return employee;
-    });
-    setFilteredData(newDataArray);
-  };
+  // const filterData = (e: ChangeEvent<HTMLInputElement>) => {
+  //   const newDataArray = employeesList.filter((employee) => {
+  //     const searchInput = e.target.value.toLowerCase();
+  //     if (
+  //       employee.firstName.toLowerCase().includes(searchInput) ||
+  //       employee.lastName.toLowerCase().includes(searchInput) ||
+  //       employee.dateOfBirth.toLowerCase().includes(searchInput) ||
+  //       employee.dateOfStart.toLowerCase().includes(searchInput) ||
+  //       employee.state.toLowerCase().includes(searchInput) ||
+  //       employee.street.toLowerCase().includes(searchInput) ||
+  //       employee.department.toLowerCase().includes(searchInput) ||
+  //       employee.city.toLowerCase().includes(searchInput)
+  //     )
+  //       return employee;
+  //   });
+  //   setFilteredData(newDataArray);
+  // };
 
   return (
     <main className="flex flex-col justify-center items-center gap-3">
@@ -38,18 +51,54 @@ export const EmployeeList = ({
         <label className="w-1/3 md:text-xl text-base" htmlFor="searchBar">
           Search :
         </label>
-        <Input
+        {/* <Input
           className="w-2/3"
           id="searchBar"
           onChange={(e) => filterData(e)}
-        />
+        /> */}
       </div>
-      <div className="md:text-sm text-l" >
-        <Table
-          columns={column}
-          dataSource={filteredData}
-          scroll={{ x:1000}}
-        />
+      <div className="md:text-sm text-l">
+        <Table height={400} data={data} />
+        <Column width={60} align="center" fixed>
+          <HeaderCell>First Name</HeaderCell>
+          <Cell dataKey="firstName" />
+        </Column>
+        <Column width={60} align="center" fixed>
+          <HeaderCell>Last Name</HeaderCell>
+          <Cell dataKey="lastName" />
+        </Column>
+        <Column width={60} align="center" fixed>
+          <HeaderCell>First Name</HeaderCell>
+          <Cell dataKey="firstName" />
+        </Column>
+        <Column width={60} align="center" fixed>
+          <HeaderCell>Date of birth</HeaderCell>
+          <Cell dataKey="dateOfBirth" />
+        </Column>
+        <Column width={60} align="center" fixed>
+          <HeaderCell>Date of start</HeaderCell>
+          <Cell dataKey="dateOfStart" />
+        </Column>
+        <Column width={60} align="center" fixed>
+          <HeaderCell>Department</HeaderCell>
+          <Cell dataKey="department" />
+        </Column>
+        <Column width={60} align="center" fixed>
+          <HeaderCell>State</HeaderCell>
+          <Cell dataKey="state" />
+        </Column>
+        <Column width={60} align="center" fixed>
+          <HeaderCell>Street</HeaderCell>
+          <Cell dataKey="street" />
+        </Column>
+        <Column width={60} align="center" fixed>
+          <HeaderCell>ZipCode</HeaderCell>
+          <Cell dataKey="zipCode" />
+        </Column>
+        <Column width={60} align="center" fixed>
+          <HeaderCell>City</HeaderCell>
+          <Cell dataKey="city" />
+        </Column>
       </div>
       <Link
         className="italic cursor-pointer underline text-cyan-500 mb-2.5 md:text-xl text-base"

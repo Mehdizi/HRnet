@@ -1,13 +1,11 @@
 import { Link } from "react-router-dom";
-import {v4 as uuidv4} from 'uuid';
+import { v4 as uuidv4 } from "uuid";
 
-import { Modal } from "npm-react-modal-mehdizi"
+import { Modal } from "npm-react-modal-mehdizi";
 import { useModal } from "npm-react-modal-mehdizi";
 
 import { states } from "../../datas/states";
 import { departments } from "../../datas/departments";
-
-import { DatePicker,  Select, Input } from "antd";
 
 import { Employee } from "../../types/Employee";
 import { useChangeFirstName } from "../../hooks/useChangeFirstName";
@@ -20,6 +18,12 @@ import { useChangeCity } from "../../hooks/useChangeCity";
 import { useChangeZipCode } from "../../hooks/useChangeZipCode";
 import { useChangeDepartment } from "../../hooks/useChangeDepartment";
 
+import { SelectPicker, DatePicker, InputNumber, Input } from "rsuite";
+import "rsuite/SelectPicker/styles/index.css";
+import "rsuite/DatePicker/styles/index.css";
+import "rsuite/Input/styles/index.css";
+import "rsuite/InputNumber/styles/index.css";
+
 export const CreateEmployee = ({
   save,
   employeesList,
@@ -28,29 +32,26 @@ export const CreateEmployee = ({
   employeesList: Employee[];
 }) => {
 
-  const {isOpen, handleToggleModal } = useModal()
+  const { isOpen, handleToggleModal } = useModal();
 
-  const { firstName, changeFirstName, setFirstName } = useChangeFirstName();
-  const { lastName, changeLastName, setLastName } = useChangeLastName();
+  const { firstName, changeFirstName } = useChangeFirstName();
+  const { lastName, changeLastName } = useChangeLastName();
   const { changeStreet, street, setStreet } = useChangeStreet();
   const { changeCity, city, setCity } = useChangeCity();
-  const {changeState, state, setState } = useChangeState()
- const { changeZipCode, zipCode, setZipCode } = useChangeZipCode()
- const {changeDepartment, department, setDepartment} = useChangeDepartment()
+  const { changeState, state, setState } = useChangeState();
+  const { changeZipCode, zipCode, setZipCode } = useChangeZipCode();
+  const { changeDepartment, department, setDepartment } = useChangeDepartment();
 
   const {
     changeBirthDate,
     birthDate,
-    formattedBirthDate,
     setBirthDate,
-    setFormattedBirthDate,
   } = useChangeBirthDate();
   const {
     changeStartDate,
     startDate,
     formattedStartDate,
     setStartDate,
-    setFormattedStartDate,
   } = useChangeStartDate();
 
   const formattedStates = states.map((state) => {
@@ -68,17 +69,17 @@ export const CreateEmployee = ({
   });
 
   const handleResetFormField = () => {
-    setFirstName("");
-    setLastName("");
-    setBirthDate(null);
-    setFormattedBirthDate("");
-    setStartDate(null);
-    setFormattedStartDate("");
-    setStreet("");
-    setCity("");
-    setState("");
-    setZipCode(0);
-    setDepartment("");
+    changeFirstName("")
+    changeLastName("");
+    changeBirthDate(null);
+    // changeFormattedBirthDate("");
+    // changeStartDate(null);
+    // changeFormattedStartDate("");
+    // changeStreet("");
+    // changeCity("");
+    // changeState("");
+    // changeZipCode(0);
+    // changeDepartment("");
   };
 
   const handleOnSubmit = (e: any) => {
@@ -102,7 +103,11 @@ export const CreateEmployee = ({
 
   return (
     <>
-      <Modal isOpen={isOpen} message="New employee created !" handleCloseModal={handleToggleModal} />
+      <Modal
+        isOpen={isOpen}
+        message="New employee created !"
+        handleCloseModal={handleToggleModal}
+      />
       <main className="mb-2 max-w-5xl m-auto">
         <h1 className="flex justify-center text-5xl font-bold my-5">HRnet</h1>
         <div className="flex flex-col items-center justify-center gap-2.5">
@@ -142,10 +147,10 @@ export const CreateEmployee = ({
                   />
 
                   <label htmlFor="date-of-birth">Date of Birth</label>
-                  <DatePicker onChange={changeBirthDate} value={birthDate} />
+                  <DatePicker placeholder="Select a birthdate" value={birthDate} onChange={changeBirthDate}/>
 
                   <label htmlFor="start-date">Start Date</label>
-                  <DatePicker onChange={changeStartDate} value={startDate} />
+                  <DatePicker placeholder="Select a date" value={startDate} value={startDate} onChange={setStartDate} />
                 </div>
                 <div className="w-1/2 p-5 flex flex-col gap-2.5 border-r-1 rounded-sm border-sold border-black">
                   <h3 className="font-bold text-m italic text-center w-full underline  sm:mb-0 mb-6">
@@ -155,7 +160,6 @@ export const CreateEmployee = ({
                   <Input
                     id="street"
                     type="text"
-                    value={street}
                     onChange={changeStreet}
                   />
 
@@ -168,16 +172,17 @@ export const CreateEmployee = ({
                   />
 
                   <label htmlFor="state">State</label>
-                  <Select
-                  id="state"
+                  <SelectPicker
+                    id="state"
                     value={state}
                     placeholder="Select a state"
-                    options={formattedStates}
+                    data={formattedStates}
                     onChange={changeState}
+                    className="z-0"
                   />
 
                   <label htmlFor="zip-code">Zip Code</label>
-                  <Input
+                  <InputNumber
                     id="zip-code"
                     type="number"
                     value={zipCode}
@@ -187,12 +192,13 @@ export const CreateEmployee = ({
               </div>
               <div className="p-x-5 pb-5 w-1/2 flex flex-col m-auto gap-2.5">
                 <label htmlFor="department">Department</label>
-                <Select
-                id="department"
+                <SelectPicker
+                  id="department"
                   value={department}
                   placeholder="Select a department"
-                  options={formattedDepartments}
+                  data={formattedDepartments}
                   onChange={changeDepartment}
+                  className="z-0"
                 />
               </div>
             </div>
