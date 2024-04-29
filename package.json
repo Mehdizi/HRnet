@@ -10,24 +10,23 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@ark-ui/react": "^2.0.1",
-    "antd": "^5.15.3",
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@mui/material": "^5.15.15",
     "npm-react-modal-mehdizi": "^0.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.0",
-    "react-select": "^5.8.0",
-    "sass": "^1.70.0",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@types/react": "^18.2.43",
-    "@types/react-datepicker": "^4.19.6",
     "@types/react-dom": "^18.2.17",
     "@types/uuid": "^9.0.8",
     "@typescript-eslint/eslint-plugin": "^6.14.0",
     "@typescript-eslint/parser": "^6.14.0",
     "@vitejs/plugin-react": "^4.2.1",
+    "antd": "^5.15.3",
     "autoprefixer": "^10.4.19",
     "eslint": "^8.55.0",
     "eslint-plugin-react-hooks": "^4.6.0",

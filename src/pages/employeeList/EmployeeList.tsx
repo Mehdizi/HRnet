@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
-import { column } from "../../datas/tableColumn";
-import { Input, Table } from "antd";
+import { Input} from "antd";
 import { Employee } from "../../types/Employee";
 import { ChangeEvent, useState } from "react";
+import { ScrollTable } from "../../components/ScrollTable";
+import { columns } from "../../datas/tableColumn";
 
 export const EmployeeList = ({
   employeesList: employeesList,
@@ -30,6 +31,7 @@ export const EmployeeList = ({
   };
 
   return (
+    <>
     <main className="flex flex-col justify-center items-center gap-3">
       <h1 className="flex justify-center text-3xl font-bold my-5 md:text-5xl">
         Current Employees
@@ -44,13 +46,7 @@ export const EmployeeList = ({
           onChange={(e) => filterData(e)}
         />
       </div>
-      <div className="md:text-sm text-l" >
-        <Table
-          columns={column}
-          dataSource={filteredData}
-          scroll={{ x:1000}}
-        />
-      </div>
+      <ScrollTable columns={columns} filteredData={filteredData} />
       <Link
         className="italic cursor-pointer underline text-cyan-500 mb-2.5 md:text-xl text-base"
         to="/"
@@ -58,5 +54,7 @@ export const EmployeeList = ({
         Home
       </Link>
     </main>
+    </>
+
   );
 };

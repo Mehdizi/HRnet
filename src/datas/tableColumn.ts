@@ -1,4 +1,4 @@
-export const column = [
+export const columns = [
   {
     title: "First name",
     dataIndex: "firstName",

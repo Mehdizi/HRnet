@@ -1,24 +1,19 @@
 import { Link } from "react-router-dom";
-import {v4 as uuidv4} from 'uuid';
-
-import { Modal } from "npm-react-modal-mehdizi"
-import { useModal } from "npm-react-modal-mehdizi";
-
+import { v4 as uuidv4 } from "uuid";
+import { Modal, useModal } from "npm-react-modal-mehdizi";
 import { states } from "../../datas/states";
 import { departments } from "../../datas/departments";
-
-import { DatePicker,  Select, Input } from "antd";
-
+import { DatePicker, Select, Input } from "antd";
 import { Employee } from "../../types/Employee";
 import { useChangeFirstName } from "../../hooks/useChangeFirstName";
 import { useChangeLastName } from "../../hooks/useChangeLastName";
-import { useChangeBirthDate } from "../../hooks/useChangeBirthDate";
 import { useChangeStartDate } from "../../hooks/useChangeStartDate";
 import { useChangeState } from "../../hooks/useChangeState";
 import { useChangeStreet } from "../../hooks/useChangeStreet";
 import { useChangeCity } from "../../hooks/useChangeCity";
 import { useChangeZipCode } from "../../hooks/useChangeZipCode";
 import { useChangeDepartment } from "../../hooks/useChangeDepartment";
+import { useChangeBirthDate } from "../../hooks/useChangeBirthDate";
 
 export const CreateEmployee = ({
   save,
@@ -27,16 +22,15 @@ export const CreateEmployee = ({
   save: React.Dispatch<React.SetStateAction<Array<Employee>>>;
   employeesList: Employee[];
 }) => {
-
-  const {isOpen, handleToggleModal } = useModal()
+  const { isOpen, handleToggleModal } = useModal();
 
   const { firstName, changeFirstName, setFirstName } = useChangeFirstName();
   const { lastName, changeLastName, setLastName } = useChangeLastName();
   const { changeStreet, street, setStreet } = useChangeStreet();
   const { changeCity, city, setCity } = useChangeCity();
-  const {changeState, state, setState } = useChangeState()
- const { changeZipCode, zipCode, setZipCode } = useChangeZipCode()
- const {changeDepartment, department, setDepartment} = useChangeDepartment()
+  const { changeState, state, setState } = useChangeState();
+  const { changeZipCode, zipCode, setZipCode } = useChangeZipCode();
+  const { changeDepartment, department, setDepartment } = useChangeDepartment();
 
   const {
     changeBirthDate,
@@ -62,8 +56,8 @@ export const CreateEmployee = ({
 
   const formattedDepartments = departments.map((department) => {
     return {
-      label: department.label,
-      value: department.label,
+      label: department,
+      value: department,
     };
   });
 
@@ -102,7 +96,11 @@ export const CreateEmployee = ({
 
   return (
     <>
-      <Modal isOpen={isOpen} message="New employee created !" handleCloseModal={handleToggleModal} />
+      <Modal
+        isOpen={isOpen}
+        message="New employee created !"
+        handleCloseModal={handleToggleModal}
+      />
       <main className="mb-2 max-w-5xl m-auto">
         <h1 className="flex justify-center text-5xl font-bold my-5">HRnet</h1>
         <div className="flex flex-col items-center justify-center gap-2.5">
@@ -143,7 +141,6 @@ export const CreateEmployee = ({
 
                   <label htmlFor="date-of-birth">Date of Birth</label>
                   <DatePicker onChange={changeBirthDate} value={birthDate} />
-
                   <label htmlFor="start-date">Start Date</label>
                   <DatePicker onChange={changeStartDate} value={startDate} />
                 </div>
@@ -169,7 +166,7 @@ export const CreateEmployee = ({
 
                   <label htmlFor="state">State</label>
                   <Select
-                  id="state"
+                    id="state"
                     value={state}
                     placeholder="Select a state"
                     options={formattedStates}
@@ -188,7 +185,7 @@ export const CreateEmployee = ({
               <div className="p-x-5 pb-5 w-1/2 flex flex-col m-auto gap-2.5">
                 <label htmlFor="department">Department</label>
                 <Select
-                id="department"
+                  id="department"
                   value={department}
                   placeholder="Select a department"
                   options={formattedDepartments}
