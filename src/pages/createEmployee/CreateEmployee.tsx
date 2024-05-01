@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 import { Modal, useModal } from "npm-react-modal-mehdizi";
 import { states } from "../../datas/states";
 import { departments } from "../../datas/departments";
-import { DatePicker, Select, Input } from "antd";
+import { DatePicker, Select, Input, Form, Button } from "antd";
 import { Employee } from "../../types/Employee";
 import { useChangeFirstName } from "../../hooks/useChangeFirstName";
 import { useChangeLastName } from "../../hooks/useChangeLastName";
@@ -22,6 +22,7 @@ export const CreateEmployee = ({
   save: React.Dispatch<React.SetStateAction<Array<Employee>>>;
   employeesList: Employee[];
 }) => {
+  const [form] = Form.useForm();
   const { isOpen, handleToggleModal } = useModal();
 
   const { firstName, changeFirstName, setFirstName } = useChangeFirstName();
@@ -76,6 +77,7 @@ export const CreateEmployee = ({
   };
 
   const handleOnSubmit = (e: any) => {
+    console.log("form", form);
     e.preventDefault;
     const newEmployee = {
       key: uuidv4(),
@@ -92,6 +94,7 @@ export const CreateEmployee = ({
     save([...employeesList, newEmployee]);
     handleToggleModal();
     handleResetFormField();
+    form.resetFields();
   };
 
   return (
@@ -110,96 +113,110 @@ export const CreateEmployee = ({
           >
             View current Employees
           </Link>
-          <h2 className="text-4xl text-bold">Create Employee</h2>
-          <form
-            className="flex flex-col justify-center items-center gap-2.5 border border-solid rounded-lg border-cyan-400 p-5 w-full sm:w-2/3"
-            action="#"
-            id="create-employee"
-            onSubmit={handleOnSubmit}
+          <Form
+            form={form}
+            className="flex flex-col justify-center items-center gap-2.5 border border-solid rounded-lg border-cyan-400 p-5 w-full sm:w-2/3 "
+            name="basic"     
+            size={"small"}       
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 16 }}
+            onFinish={handleOnSubmit}
           >
-            <div className="bg-cyan-400 flex justify-between flex-col w-full rounded-md">
-              <div className="flex">
-                <div className="w-1/2 p-5 flex flex-col gap-2.5 border-r-1 rounded-sm border-sold border-black">
-                  <h3 className="font-bold text-m italic text-center sm:w-full w-5 underline">
-                    Personal informations
-                  </h3>
-                  <label htmlFor="first-name">First Name</label>
-                  <Input
-                    type="text"
-                    id="first-name"
-                    value={firstName}
-                    onChange={changeFirstName}
-                  />
+            <div className="w-4/5 sm:w-2/3  bg-slate-200 p-5 rounded-md">
+              <h2 className="text-3xl text-bold w-full text-center pb-8">
+                Create Employee
+              </h2>
 
-                  <label htmlFor="last-name">Last Name</label>
-                  <Input
-                    type="text"
-                    id="last-name"
-                    value={lastName}
-                    onChange={changeLastName}
-                  />
+              {/* <h3 className="font-bold text-m italic underline m-3 text-center">
+                Personal informations
+              </h3> */}
+              <Form.Item<Employee>
+                label="First name"
+                name="firstName"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your first name!",
+                  },
+                ]}
+              >
+                <Input value={firstName} onChange={changeFirstName} />
+              </Form.Item>
+              <Form.Item<Employee>
+                label="Last name"
+                name="lastName"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your last name!",
+                  },
+                ]}
+              >
+                <Input value={lastName} onChange={changeLastName} />
+              </Form.Item>
+              <Form.Item<Employee>
+                label="Birthday"
+                name="dateOfBirth"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please enter your birth date!",
+                  },
+                ]}
+              >
+                <DatePicker onChange={changeBirthDate} value={birthDate} />
+              </Form.Item>
+              <Form.Item<Employee> label="Date of start" name="dateOfStart">
+                <DatePicker onChange={changeStartDate} value={startDate} />
+              </Form.Item>
 
-                  <label htmlFor="date-of-birth">Date of Birth</label>
-                  <DatePicker onChange={changeBirthDate} value={birthDate} />
-                  <label htmlFor="start-date">Start Date</label>
-                  <DatePicker onChange={changeStartDate} value={startDate} />
-                </div>
-                <div className="w-1/2 p-5 flex flex-col gap-2.5 border-r-1 rounded-sm border-sold border-black">
-                  <h3 className="font-bold text-m italic text-center w-full underline  sm:mb-0 mb-6">
-                    Adress
-                  </h3>
-                  <label htmlFor="street">Street</label>
-                  <Input
-                    id="street"
-                    type="text"
-                    value={street}
-                    onChange={changeStreet}
-                  />
-
-                  <label htmlFor="city">City</label>
-                  <Input
-                    id="city"
-                    type="text"
-                    value={city}
-                    onChange={changeCity}
-                  />
-
-                  <label htmlFor="state">State</label>
-                  <Select
-                    id="state"
-                    value={state}
-                    placeholder="Select a state"
-                    options={formattedStates}
-                    onChange={changeState}
-                  />
-
-                  <label htmlFor="zip-code">Zip Code</label>
-                  <Input
-                    id="zip-code"
-                    type="number"
-                    value={zipCode}
-                    onChange={changeZipCode}
-                  />
-                </div>
-              </div>
-              <div className="p-x-5 pb-5 w-1/2 flex flex-col m-auto gap-2.5">
-                <label htmlFor="department">Department</label>
+              {/* <h3 className="font-bold text-m italic text-center underline m-3">
+                Adress
+              </h3> */}
+              <Form.Item<Employee> label="Street" name="street">
+                <Input value={street} onChange={changeStreet} />
+              </Form.Item>
+              <Form.Item<Employee> label="City" name="city">
+                <Input value={city} onChange={changeCity} />
+              </Form.Item>
+              <Form.Item<Employee> label="State" name="state">
                 <Select
-                  id="department"
+                  value={state}
+                  onChange={changeState}
+                  placeholder="Select a state"
+                  options={formattedStates}
+                />
+              </Form.Item>
+              <Form.Item<Employee> label="Zip code" name="zipCode">
+                <Input type="number" value={zipCode} onChange={changeZipCode} />
+              </Form.Item>
+
+              <Form.Item<Employee>
+                label="Department"
+                name="department"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your last deparment!",
+                  },
+                ]}
+              >
+                <Select
                   value={department}
+                  onChange={changeDepartment}
                   placeholder="Select a department"
                   options={formattedDepartments}
-                  onChange={changeDepartment}
                 />
+              </Form.Item>
+              <div className="flex items-center justify-center">
+                <Form.Item>
+                  <Button type="primary" htmlType="submit">
+                    Save an employee
+                  </Button>
+                </Form.Item>
               </div>
             </div>
-            <button
-              className="border p-2.5 rounded-md border-cyan-500 bg-cyan-400 hover:bg-cyan-500 hover:border-cyan-400"
-              type="submit"
-            >
-              Save an employee
-            </button>
-          </form>
+          </Form>
         </div>
       </main>
     </>
