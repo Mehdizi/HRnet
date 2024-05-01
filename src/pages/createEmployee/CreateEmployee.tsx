@@ -77,7 +77,6 @@ export const CreateEmployee = ({
   };
 
   const handleOnSubmit = (e: any) => {
-    console.log("form", form);
     e.preventDefault;
     const newEmployee = {
       key: uuidv4(),
@@ -116,8 +115,8 @@ export const CreateEmployee = ({
           <Form
             form={form}
             className="flex flex-col justify-center items-center gap-2.5 border border-solid rounded-lg border-cyan-400 p-5 w-full sm:w-2/3 "
-            name="basic"     
-            size={"small"}       
+            name="basic"
+            size={"small"}
             labelCol={{ span: 8 }}
             wrapperCol={{ span: 16 }}
             onFinish={handleOnSubmit}
@@ -126,10 +125,6 @@ export const CreateEmployee = ({
               <h2 className="text-3xl text-bold w-full text-center pb-8">
                 Create Employee
               </h2>
-
-              {/* <h3 className="font-bold text-m italic underline m-3 text-center">
-                Personal informations
-              </h3> */}
               <Form.Item<Employee>
                 label="First name"
                 name="firstName"
@@ -169,10 +164,6 @@ export const CreateEmployee = ({
               <Form.Item<Employee> label="Date of start" name="dateOfStart">
                 <DatePicker onChange={changeStartDate} value={startDate} />
               </Form.Item>
-
-              {/* <h3 className="font-bold text-m italic text-center underline m-3">
-                Adress
-              </h3> */}
               <Form.Item<Employee> label="Street" name="street">
                 <Input value={street} onChange={changeStreet} />
               </Form.Item>
