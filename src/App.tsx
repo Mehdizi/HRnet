@@ -3,10 +3,9 @@ import { CreateEmployee } from "./pages/createEmployee/CreateEmployee";
 import { EmployeeList } from "./pages/employeeList/EmployeeList";
 import { useState } from "react";
 import { Employee } from "./types/Employee";
-import { fakeEmployees } from "./datas/fakeEmployees";
 
 function App() {
-  const [employeesList, setEmployeesList] = useState<Array<Employee>>(fakeEmployees);
+  const [employeesList, setEmployeesList] = useState<Array<Employee>>([]);
 
   const router = createBrowserRouter([
     {

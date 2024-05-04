@@ -36,16 +36,12 @@ export const CreateEmployee = ({
   const {
     changeBirthDate,
     birthDate,
-    formattedBirthDate,
     setBirthDate,
-    setFormattedBirthDate,
   } = useChangeBirthDate();
   const {
     changeStartDate,
     startDate,
-    formattedStartDate,
     setStartDate,
-    setFormattedStartDate,
   } = useChangeStartDate();
 
   const formattedStates = states.map((state) => {
@@ -66,9 +62,7 @@ export const CreateEmployee = ({
     setFirstName("");
     setLastName("");
     setBirthDate(null);
-    setFormattedBirthDate("");
     setStartDate(null);
-    setFormattedStartDate("");
     setStreet("");
     setCity("");
     setState("");
@@ -79,11 +73,11 @@ export const CreateEmployee = ({
   const handleOnSubmit = (e: any) => {
     e.preventDefault;
     const newEmployee = {
-      key: uuidv4(),
+      id: uuidv4(),
       firstName: firstName,
       lastName: lastName,
-      dateOfBirth: formattedBirthDate,
-      dateOfStart: formattedStartDate,
+      dateOfBirth: birthDate,
+      dateOfStart: startDate,
       street: street,
       city: city,
       state: state,

@@ -1,5 +1,5 @@
 export type Employee = {
-  key:string;
+  id:string;
   firstName: string;
   lastName: string;
   dateOfBirth: string;
